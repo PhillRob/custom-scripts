@@ -56,15 +56,15 @@ function evaluatePixel(samples, scenes)
           sum_VV += samples[i].VV; 
           count++;
       }
-    // Overall range of intensity values Anologous to 0-100% soil moisture 
+    // Overall range of intensity values anologous to 0-100% soil moisture 
     var sensitivity  = max-min; 
-    // If overall averge is more than 6dB i.e., High intensity always usually urban areas.
+    // If overall average is more than 6dB i.e., high intensity usually represents urban areas.
     // Generating urban area mask using -6dB threshold
     urban_mask = 10*Math.log10(sum_VV/count) > -6 ?  0 : 1; 
-    // If overall averge is less than 17dB i.e., low intensity always usually water bodies.
+    // If overall average is less than 17dB i.e., low intensity always usually water bodies.
     // Generating permanent water body mask using -17dB threshold
     water_mask = 10*Math.log10(sum_VV/count) < -17 ?  0 : 1; 
-    // Assuming change in bckscatter intensity only because of change in soil moisture.
+    // Assuming change in backscatter intensity only because of change in soil moisture.
     Mv = ((samples[0].VV) - min)/(sensitivity);
     Mv = Mv*water_mask*urban_mask;// Applying urban and permanent water body mask
 
